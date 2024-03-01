@@ -30,7 +30,13 @@ void AAuraEffectActor::OnOverlap(UPrimitiveComponent* OverlapComponent, AActor* 
 			->GetAttributeSet(UAuraAttributeSet::StaticClass()));
 		
 		UAuraAttributeSet* MutableAuraAttributeSet = const_cast<UAuraAttributeSet*>(AuraAttributeSet);
-		MutableAuraAttributeSet->SetHealth(AuraAttributeSet->GetHealth() + 25.f);
+		if (this->GetName().Contains("HealthPotion"))
+		{
+			MutableAuraAttributeSet->SetHealth(AuraAttributeSet->GetHealth() + 25.f);
+		}else if (this->GetName().Contains("ManaPotion"))
+		{
+			MutableAuraAttributeSet->SetMana(AuraAttributeSet->GetMana() + 25.f);
+		}
 
 		Destroy();
 	}
