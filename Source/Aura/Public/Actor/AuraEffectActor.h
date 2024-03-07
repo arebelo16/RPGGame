@@ -27,7 +27,7 @@ enum class EEffectRemovalPolicy
 	DoNotRemove
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Blueprintable)
 struct FGameplayEffectContainer
 {
 	GENERATED_BODY()
