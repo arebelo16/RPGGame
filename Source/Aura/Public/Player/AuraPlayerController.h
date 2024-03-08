@@ -11,7 +11,7 @@
 class UAuraInputConfig;
 class UInputMappingContext;
 class UInputAction;
-
+class UAuraAbilitySystemComponent;
 class IEnemyInterface;
 
 /**
@@ -49,4 +49,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetAbilitySystemComponent();
 };
