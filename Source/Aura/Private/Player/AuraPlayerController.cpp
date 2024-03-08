@@ -4,14 +4,18 @@
 #include "Player/AuraPlayerController.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;
+
+	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -98,7 +102,12 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString()); 
+	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	{
+		bTargeting = ThisActor ? true : false;
+		bAutoRunning = false;
+	}
+
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
@@ -109,8 +118,40 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	if(GetAbilitySystemComponent() == nullptr) return;
-	GetAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
+
+	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	{
+		if (GetAbilitySystemComponent())
+		{
+			GetAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
+		}
+		return;
+	}
+
+	if (bTargeting)
+	{
+		if (GetAbilitySystemComponent())
+		{
+			GetAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
+		}
+	}else
+	{
+		FollowTime += GetWorld()->GetDeltaSeconds();
+
+		FHitResult Hit;
+		if ( GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+		{
+			CachedDestination = Hit.ImpactPoint;
+		}
+
+		if(APawn* ControledPawn = GetPawn())
+		{
+			const FVector WorldDirection = (CachedDestination - ControledPawn->GetActorLocation()).GetSafeNormal();
+			ControledPawn->AddMovementInput(WorldDirection);
+		}
+	}
+	
+	//if(GetAbilitySystemComponent() == nullptr) return;
 }
 
 UAuraAbilitySystemComponent* AAuraPlayerController::GetAbilitySystemComponent()
