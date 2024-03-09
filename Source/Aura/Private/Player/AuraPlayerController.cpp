@@ -10,6 +10,7 @@
 #include "NavigationSystem.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
@@ -18,6 +19,7 @@ AAuraPlayerController::AAuraPlayerController()
 	bReplicates = true;
 
 	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
+	Spline->SetDrawDebug(true);
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -61,7 +63,7 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
-
+	
 	Autorun();
 }
 
@@ -69,21 +71,48 @@ void AAuraPlayerController::Autorun()
 {
 	if (!Spline || !GetPawn() || !bAutoRunning) return;
 
-	// Find the closest point on the spline
 	FVector PawnLocation = GetPawn()->GetActorLocation();
-	FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(PawnLocation, ESplineCoordinateSpace::World);
-	FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
+	PawnLocation.Z = 0;
 
-	// Update movement input
-	GetPawn()->AddMovementInput(Direction);
-
-	// Check if reached destination
-	float DistanceToDestination = FVector::Distance(LocationOnSpline, CachedDestination);
-	if (DistanceToDestination <= AutoRunAcceptanceRadius)
+	if (!bRunningToNextPoint)
 	{
+		for (int32 i = 1; i < Spline->GetNumberOfSplinePoints(); ++i)
+		{
+			FVector PointActualLocation = Spline->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::World);
+			if (!ReachedDestinations.Contains(PointActualLocation)){
+				if (FVector::Distance(PawnLocation, PointActualLocation) > AutoRunAcceptanceRadius)
+				{
+					DrawDebugSphere(GetWorld(), PointActualLocation, 8.f, 8, FColor::Red, false, 5.f);
+					FVector Direction = (PointActualLocation - PawnLocation).GetSafeNormal();
+					GetPawn()->AddMovementInput(Direction);
+					NextDestination = PointActualLocation;
+					bRunningToNextPoint = true;
+					return;
+				}
+			}
+			
+		}
+
 		bAutoRunning = false;
 	}
+	else
+	{
+		if (FVector::Distance(PawnLocation, NextDestination) <= AutoRunAcceptanceRadius)
+		{
+			bRunningToNextPoint = false;
+			ReachedDestinations.Add(NextDestination);
+		}
+		else
+		{
+			FVector Direction = (NextDestination - PawnLocation).GetSafeNormal();
+			GetPawn()->AddMovementInput(Direction);
+		}
+	}
 }
+
+
+
+
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
@@ -154,10 +183,11 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 			if (NavigationPath && NavigationPath->IsValid())
 			{
 				// Clear spline and add points along the path
-				Spline->ClearSplinePoints();
+				Spline->ClearSplinePoints(true);
+				ReachedDestinations.Reset();
 				for (const FVector& PointLoc : NavigationPath->PathPoints)
 				{
-					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World, true);
 					DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
 				}
 				
@@ -166,6 +196,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				{
 					CachedDestination = NavigationPath->PathPoints.Last();
 					bAutoRunning = true;
+					bRunningToNextPoint = false;
 				};
 			}
 		}

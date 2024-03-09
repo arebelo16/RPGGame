@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "InputActionValue.h"
+#include "NavigationPath.h"
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
@@ -57,13 +58,17 @@ private:
 	UAuraAbilitySystemComponent* GetAbilitySystemComponent();
 
 	FVector CachedDestination = FVector::ZeroVector;
+	FVector NextDestination = FVector::ZeroVector;
+	FVector LastReachedDestination = FVector::ZeroVector;
+	TArray<FVector> ReachedDestinations = TArray<FVector>();
 	float FollowTime = 0.f;
 	float ShortPressedThreshold = 0.5f;
 	bool bAutoRunning = false;
 	bool bTargeting = false;
+	bool bRunningToNextPoint = false;
 
 	UPROPERTY(EditDefaultsOnly)
-	float AutoRunAcceptanceRadius = 20.f;
+	float AutoRunAcceptanceRadius = 15.f;
 
 	UPROPERTY(VisibleAnywhere)
  	TObjectPtr<USplineComponent> Spline;
