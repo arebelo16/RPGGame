@@ -32,4 +32,6 @@ public:
 	// BlueprintNativeEvent automatically generate a virtual event for c++, also implementable in blueprints
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
+
+	virtual void Die() = 0;
 };
