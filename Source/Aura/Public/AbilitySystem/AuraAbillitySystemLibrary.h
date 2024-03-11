@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/CharacterClassInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "AuraAbillitySystemLibrary.generated.h"
 
@@ -23,5 +24,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="AuraAbillitySystemLibrary|WidgetController")
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbillitySystemLibrary|CharacterClassDefaults")
+	static void InitializeDefaultAttributes(const UObject* WorldContextObject,
+		ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent);
 	
 };
