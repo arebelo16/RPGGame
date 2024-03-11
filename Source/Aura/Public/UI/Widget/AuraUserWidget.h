@@ -19,6 +19,9 @@ public:
 	
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UObject> WidgetController;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void SetWidgetVisibility(bool IsVisible);
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void WidgetControllerSet();

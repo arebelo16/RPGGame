@@ -23,6 +23,8 @@ public:
 	// Enemy Interface
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	virtual void ShowHealthBar() override;
+	virtual void HideHealthBar() override;
 	// Enemy Interface
 
 	// Combat Interface

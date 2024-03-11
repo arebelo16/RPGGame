@@ -27,6 +27,20 @@ void AAuraEnemy::UnHighlightActor()
 	Weapon->SetRenderCustomDepth(false);
 }
 
+void AAuraEnemy::ShowHealthBar()
+{
+	//HealthBar->SetVisibility(true);
+	UAuraUserWidget* HealthbarWidget = Cast<UAuraUserWidget>(HealthBar->GetWidget());
+	HealthbarWidget->SetWidgetVisibility(true);
+}
+
+void AAuraEnemy::HideHealthBar()
+{
+	//HealthBar->SetVisibility(false);
+	UAuraUserWidget* HealthbarWidget = Cast<UAuraUserWidget>(HealthBar->GetWidget());
+	HealthbarWidget->SetWidgetVisibility(false);
+}
+
 int32 AAuraEnemy::GetPlayerLevel()
 {
 	return Level;

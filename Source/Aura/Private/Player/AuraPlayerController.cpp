@@ -10,9 +10,11 @@
 #include "NavigationSystem.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
+#include "GameFramework/Character.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -66,6 +68,20 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	CursorTrace();
 	
 	Autorun();
+}
+
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if(IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+		DamageText->RegisterComponent();
+		// When attached the Damage text animation will be played right away, so we detach right after attaching it
+		// This to prevent the Damage text following the TargetCharacter
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
+	}
 }
 
 void AAuraPlayerController::Autorun()
@@ -143,9 +159,11 @@ void AAuraPlayerController::CursorTrace()
 	if (LastActor != ThisActor) {
 		if (LastActor != nullptr) {
 			LastActor->UnHighlightActor();
+			LastActor->HideHealthBar();
 		}
 		if (ThisActor != nullptr) {
 			ThisActor->HighlightActor();
+			ThisActor->ShowHealthBar();
 		}
 		LastActor = ThisActor;
 	}
