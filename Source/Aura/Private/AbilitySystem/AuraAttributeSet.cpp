@@ -9,6 +9,7 @@
 #include "GameplayEffectExtension.h"
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/AuraAbillitySystemLibrary.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -134,8 +135,10 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 				TargetProperties.AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
-
-			ShowFloatingText(SourceProperties, TargetProperties, LocalIncomingDamage);
+			
+			const bool bBlock = UAuraAbillitySystemLibrary::IsBlockedHit(SourceProperties.EffectContextHandle);
+			const bool bCriticalHit = UAuraAbillitySystemLibrary::IsCriticalHit(SourceProperties.EffectContextHandle);
+			ShowFloatingText(SourceProperties, TargetProperties, LocalIncomingDamage, bBlock, bCriticalHit);
 		}
 		
 	}
@@ -264,7 +267,7 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 }
 
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperties,
-	const FEffectProperties& TargetProperties, const float Damage)
+	const FEffectProperties& TargetProperties, const float Damage,  bool bBlockedHit, bool bCriticalHit)
 {
 	//TODO: For Fire Area Damage - Changed the Tag of Fire area and SacrificePool to IncomingDamage
 	//if (SourceProperties.Character != TargetProperties.Character)
