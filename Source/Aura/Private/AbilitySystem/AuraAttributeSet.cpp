@@ -266,8 +266,9 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperties,
 	const FEffectProperties& TargetProperties, const float Damage)
 {
-	if (SourceProperties.Character != TargetProperties.Character)
-	{
+	//TODO: For Fire Area Damage - Changed the Tag of Fire area and SacrificePool to IncomingDamage
+	//if (SourceProperties.Character != TargetProperties.Character)
+	//{
 		AAuraPlayerController* PlayerController =
 			Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(SourceProperties.Character, 0));
 
@@ -275,5 +276,5 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperti
 		{
 			PlayerController->ShowDamageNumber(Damage, TargetProperties.Character);
 		}
-	}
+	//}
 }
