@@ -49,6 +49,7 @@ UAttributeMenuWidgetController* UAuraAbillitySystemLibrary::GetAttributeMenuWidg
 void UAuraAbillitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject,
 	ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
 {
+	
 	AActor* Actor = AbilitySystemComponent->GetAvatarActor();
 
 	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
