@@ -309,7 +309,7 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperti
 	//if (SourceProperties.Character != TargetProperties.Character)
 	//{
 		AAuraPlayerController* PlayerController =
-			Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(SourceProperties.Character, 0));
+			Cast<AAuraPlayerController>(SourceProperties.Controller);
 
 		if(PlayerController)
 		{
