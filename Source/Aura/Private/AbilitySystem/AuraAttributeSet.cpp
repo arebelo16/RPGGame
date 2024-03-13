@@ -136,8 +136,9 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				TargetProperties.AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
 			
-			const bool bBlock = UAuraAbillitySystemLibrary::IsBlockedHit(SourceProperties.EffectContextHandle);
-			const bool bCriticalHit = UAuraAbillitySystemLibrary::IsCriticalHit(SourceProperties.EffectContextHandle);
+			const FGameplayEffectContextHandle EffectContextHandle = Data.EffectSpec.GetContext();
+			const bool bBlock = UAuraAbillitySystemLibrary::IsBlockedHit(EffectContextHandle);
+			const bool bCriticalHit = UAuraAbillitySystemLibrary::IsCriticalHit(EffectContextHandle);
 			ShowFloatingText(SourceProperties, TargetProperties, LocalIncomingDamage, bBlock, bCriticalHit);
 		}
 		
@@ -277,7 +278,7 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperti
 
 		if(PlayerController)
 		{
-			PlayerController->ShowDamageNumber(Damage, TargetProperties.Character);
+			PlayerController->ShowDamageNumber(Damage, TargetProperties.Character, bBlockedHit, bCriticalHit);
 		}
 	//}
 }
