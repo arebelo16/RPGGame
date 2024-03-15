@@ -10,6 +10,7 @@
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbillitySystemLibrary.h"
+#include "Character/AuraEnemy.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
@@ -121,6 +122,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+		ShowFloatingText(SourceProperties, TargetProperties, 2, false, false);
+
 		UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"), *TargetProperties.AvatarActor->GetName(), GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
@@ -151,7 +154,9 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				TargetProperties.AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
 			
+			
 			const FGameplayEffectContextHandle EffectContextHandle = Data.EffectSpec.GetContext();
+
 			const bool bBlock = UAuraAbillitySystemLibrary::IsBlockedHit(EffectContextHandle);
 			const bool bCriticalHit = UAuraAbillitySystemLibrary::IsCriticalHit(EffectContextHandle);
 			ShowFloatingText(SourceProperties, TargetProperties, LocalIncomingDamage, bBlock, bCriticalHit);
@@ -306,8 +311,8 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperti
 	const FEffectProperties& TargetProperties, const float Damage,  bool bBlockedHit, bool bCriticalHit)
 {
 	//TODO: For Fire Area Damage - Changed the Tag of Fire area and SacrificePool to IncomingDamage
-	//if (SourceProperties.Character != TargetProperties.Character)
-	//{
+	// if (SourceProperties.Character != TargetProperties.Character)
+	// {
 		AAuraPlayerController* PlayerController =
 			Cast<AAuraPlayerController>(SourceProperties.Controller);
 
@@ -315,5 +320,5 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperti
 		{
 			PlayerController->ShowDamageNumber(Damage, TargetProperties.Character, bBlockedHit, bCriticalHit);
 		}
-	//}
+	// }
 }
