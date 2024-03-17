@@ -122,8 +122,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-		ShowFloatingText(SourceProperties, TargetProperties, 2, false, false);
-
 		UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"), *TargetProperties.AvatarActor->GetName(), GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
@@ -313,12 +311,20 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& SourceProperti
 	//TODO: For Fire Area Damage - Changed the Tag of Fire area and SacrificePool to IncomingDamage
 	// if (SourceProperties.Character != TargetProperties.Character)
 	// {
-		AAuraPlayerController* PlayerController =
+		AAuraPlayerController* SourcePlayerController =
 			Cast<AAuraPlayerController>(SourceProperties.Controller);
 
-		if(PlayerController)
+		AAuraPlayerController* TargetPlayerController =
+			Cast<AAuraPlayerController>(TargetProperties.Controller);
+
+		if(SourcePlayerController)
 		{
-			PlayerController->ShowDamageNumber(Damage, TargetProperties.Character, bBlockedHit, bCriticalHit);
+			SourcePlayerController->ShowDamageNumber(Damage, TargetProperties.Character, bBlockedHit, bCriticalHit);
+			return;
+		}
+		if(TargetPlayerController)
+		{
+			TargetPlayerController->ShowDamageNumber(Damage, TargetProperties.Character, bBlockedHit, bCriticalHit);
 		}
 	// }
 }
