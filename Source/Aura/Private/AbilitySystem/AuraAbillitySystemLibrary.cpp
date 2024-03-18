@@ -1,7 +1,7 @@
 // Andre Rebelo
 
 
-#include "AbilitySystem/AuraAbillitySystemLibrary.h"
+#include "..\..\Public\AbilitySystem\AuraAbilitySystemLibrary.h"
 
 #include "Game/AuraGameModeBase.h"
 #include "Interaction/CombatInterface.h"
@@ -10,7 +10,7 @@
 #include "UI/HUD/AuraHUD.h"
 #include "UI/WidgetController/AuraWidgetController.h"
 
-UOverlayWidgetController* UAuraAbillitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
+UOverlayWidgetController* UAuraAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
 	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
 	{
@@ -28,7 +28,7 @@ UOverlayWidgetController* UAuraAbillitySystemLibrary::GetOverlayWidgetController
 	return nullptr;
 }
 
-UAttributeMenuWidgetController* UAuraAbillitySystemLibrary::GetAttributeMenuWidgetController(
+UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidgetController(
 	const UObject* WorldContextObject)
 {
 	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
@@ -47,7 +47,7 @@ UAttributeMenuWidgetController* UAuraAbillitySystemLibrary::GetAttributeMenuWidg
 	return nullptr;
 }
 
-void UAuraAbillitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject,
+void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject,
 	ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* AbilitySystemComponent)
 {
 	
@@ -76,7 +76,7 @@ void UAuraAbillitySystemLibrary::InitializeDefaultAttributes(const UObject* Worl
 	
 }
 
-void UAuraAbillitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject,
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject,
 	UAbilitySystemComponent* AbilitySystemComponent, ECharacterClass CharacterClass)
 {
 	
@@ -100,7 +100,7 @@ void UAuraAbillitySystemLibrary::GiveStartupAbilities(const UObject* WorldContex
 	}
 }
 
-UCharacterClassInfo* UAuraAbillitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
 {
 	const AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (AuraGameModeBase == nullptr) return nullptr;
@@ -108,7 +108,7 @@ UCharacterClassInfo* UAuraAbillitySystemLibrary::GetCharacterClassInfo(const UOb
 	return AuraGameModeBase->CharacterClassInfo;
 }
 
-bool UAuraAbillitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+bool UAuraAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
 {
 	if (const FAuraGameplayEffectContext* AuraContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
@@ -117,7 +117,7 @@ bool UAuraAbillitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle
 	return false;
 }
 
-bool UAuraAbillitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+bool UAuraAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
 {
 	if (const FAuraGameplayEffectContext* AuraContext =
 			static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
@@ -127,7 +127,7 @@ bool UAuraAbillitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandl
 	return false;
 }
 
-void UAuraAbillitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
+void UAuraAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
 {
 	if(FAuraGameplayEffectContext* AuraGameplayEffectContext =
 		static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
@@ -136,7 +136,7 @@ void UAuraAbillitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& E
 	}
 }
 
-void UAuraAbillitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& EffectContextHandle,
+void UAuraAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& EffectContextHandle,
 	bool bInIsCriticalHit)
 {
 	if(FAuraGameplayEffectContext* AuraGameplayEffectContext =
@@ -146,7 +146,7 @@ void UAuraAbillitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& 
 	}
 }
 
-void UAuraAbillitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldContextObject,
+void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldContextObject,
 	TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorsToIgnore, float Radius,
 	const FVector& SphereOrigin)
 {
@@ -173,7 +173,7 @@ void UAuraAbillitySystemLibrary::GetLivePlayersWithinRadius(const UObject* World
 	}
 }
 
-bool UAuraAbillitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
+bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
 	const bool bBothArePlayers = FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Player"));
 	const bool bBothAreEnemy = SecondActor->ActorHasTag(FName("Enemy")) && SecondActor->ActorHasTag(FName("Enemy"));

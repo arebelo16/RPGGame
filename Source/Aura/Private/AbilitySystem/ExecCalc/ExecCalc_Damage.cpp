@@ -6,7 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
-#include "AbilitySystem/AuraAbillitySystemLibrary.h"
+#include "..\..\..\Public\AbilitySystem\AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
@@ -132,7 +132,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	Damage = bBlocked ? Damage / 2.f : Damage;
 
 	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
-	UAuraAbillitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
 	
 	// Capture Armor on Target and ArmorPenetration on Source
 	float TargetArmor= 0.f;
@@ -143,7 +143,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluateParameters, SourceArmorPenetration);
 	SourceArmorPenetration = FMath::Max<float>(SourceArmorPenetration, 0.f);
 
-	const UCharacterClassInfo* CharacterClassInfo = UAuraAbillitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
+	const UCharacterClassInfo* CharacterClassInfo = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 	const FRealCurve* ArmorPenetrationCurve = CharacterClassInfo->DamageCalcCoefficients->FindCurve(FName("ArmorPenetration"), FString());
 	const float ArmorPenetrationCoefficient = ArmorPenetrationCurve->Eval(SourceCombatInterface->GetPlayerLevel());
 	
@@ -175,7 +175,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const float EffectiveCriticalHitChance = SourceCriticalHitChance - TargetCriticalHitResistance * CriticalHitResistanceCoefficient;
 	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChance;
 
-	UAuraAbillitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
 
 	// Double damage plus a bonus if critical hit
 	Damage = bCriticalHit ? Damage * 2 + SourceCriticalHitDamage : Damage;

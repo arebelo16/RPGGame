@@ -7,7 +7,7 @@
 #include "GameplayEffectTypes.h"
 #include "Data/CharacterClassInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "AuraAbillitySystemLibrary.generated.h"
+#include "AuraAbilitySystemLibrary.generated.h"
 
 class UAbilitySystemComponent;
 class UAttributeMenuWidgetController;
@@ -16,7 +16,7 @@ class UOverlayWidgetController;
  * 
  */
 UCLASS()
-class AURA_API UAuraAbillitySystemLibrary : public UBlueprintFunctionLibrary
+class AURA_API UAuraAbilitySystemLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

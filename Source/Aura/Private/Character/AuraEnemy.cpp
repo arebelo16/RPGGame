@@ -5,7 +5,7 @@
 
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
-#include "AbilitySystem/AuraAbillitySystemLibrary.h"
+#include "..\..\Public\AbilitySystem\AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Aura/Aura.h"
 #include "Components/WidgetComponent.h"
@@ -71,7 +71,7 @@ void AAuraEnemy::BeginPlay()
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 
 	InitAbilityActorInfo();
-	if (HasAuthority()) UAuraAbillitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
+	if (HasAuthority()) UAuraAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
 	
 	if (UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
@@ -123,7 +123,7 @@ void AAuraEnemy::InitAbilityActorInfo()
 
 void AAuraEnemy::InitDefaultAttributes() const
 {
-	UAuraAbillitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
+	UAuraAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
 
 AAuraEnemy::AAuraEnemy()

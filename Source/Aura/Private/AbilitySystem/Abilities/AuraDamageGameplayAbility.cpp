@@ -20,3 +20,13 @@ void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 		UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor));
 	
 }
+
+FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& ArrayTaggedMontages)
+{
+	if (ArrayTaggedMontages.Num() > 0)
+	{
+		const int32 Selection = FMath::RandRange(0, ArrayTaggedMontages.Num() -1);
+		return ArrayTaggedMontages[Selection];
+	}
+	return FTaggedMontage();
+}

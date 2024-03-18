@@ -9,7 +9,7 @@
 #include "GameplayEffectExtension.h"
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
-#include "AbilitySystem/AuraAbillitySystemLibrary.h"
+#include "..\..\Public\AbilitySystem\AuraAbilitySystemLibrary.h"
 #include "Character/AuraEnemy.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
@@ -155,8 +155,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			
 			const FGameplayEffectContextHandle EffectContextHandle = Data.EffectSpec.GetContext();
 
-			const bool bBlock = UAuraAbillitySystemLibrary::IsBlockedHit(EffectContextHandle);
-			const bool bCriticalHit = UAuraAbillitySystemLibrary::IsCriticalHit(EffectContextHandle);
+			const bool bBlock = UAuraAbilitySystemLibrary::IsBlockedHit(EffectContextHandle);
+			const bool bCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(EffectContextHandle);
 			ShowFloatingText(SourceProperties, TargetProperties, LocalIncomingDamage, bBlock, bCriticalHit);
 		}
 		
