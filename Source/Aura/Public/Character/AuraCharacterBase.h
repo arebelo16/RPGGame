@@ -9,6 +9,7 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
 
+class UNiagaraSystem;
 class UAttributeSet;
 class UAbilitySystemComponent;
 class UGameplayEffect;
@@ -32,6 +33,8 @@ public:
 	virtual bool IsDead_Implementation() const override;
 	virtual AAuraCharacterBase* GetAvatar_Implementation() override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
+	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	// End Combat Interface
 	
 	UFUNCTION(NetMulticast, Reliable)
@@ -94,6 +97,12 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category= "Combat")
+	UNiagaraSystem* BloodEffect;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category= "Combat")
+	USoundBase* DeathSound;
 
 private:
 	
