@@ -9,6 +9,7 @@
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Character/AuraCharacter.h"
 #include "Components/SplineComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/PawnMovementComponent.h"
@@ -109,7 +110,6 @@ void AAuraPlayerController::Autorun()
 			}
 			
 		}
-
 		bAutoRunning = false;
 	}
 	else

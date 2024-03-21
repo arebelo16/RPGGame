@@ -121,6 +121,34 @@ FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FG
 	return FTaggedMontage();
 }
 
+int32 AAuraCharacterBase::GetMinionCount_Implementation()
+{
+	return MinionCount;
+}
+
+void AAuraCharacterBase::IncrementMinionCount_Implementation(int32 Amount)
+{
+	MinionCount += Amount;
+}
+
+FVector AAuraCharacterBase::GetNextTargetLocation_Implementation(AActor* TargetActor, float ProjectileSpeed)
+{
+	if (!TargetActor)
+		return FVector::ZeroVector;
+
+	FVector TargetLocation = TargetActor->GetActorLocation();
+	FVector MyLocation = GetActorLocation();
+
+	// Calculate the time of flight
+	float Distance = FVector::Dist(TargetLocation, MyLocation);
+	float TimeOfFlight = Distance / ProjectileSpeed;
+
+	// Predict the target's future position
+	FVector PredictedLocation = TargetLocation + TargetActor->GetVelocity() * TimeOfFlight;
+
+	return PredictedLocation;
+}
+
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
