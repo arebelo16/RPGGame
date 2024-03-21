@@ -60,6 +60,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category= "Combat")
 	FName RightHandTipSocketName;
 
+	UPROPERTY(EditAnywhere, Category= "Combat")
+	FName TailSocketName;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 

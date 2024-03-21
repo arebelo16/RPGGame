@@ -145,7 +145,7 @@ AAuraEnemy::AAuraEnemy()
 	HealthBar->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	HealthBar->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
 	
-	IconHealthBar = CreateDefaultSubobject<UWidgetComponent>("IconHeatlhBar");
+	IconHealthBar = CreateDefaultSubobject<UWidgetComponent>("IconHealthBar");
 	IconHealthBar->SetupAttachment(GetRootComponent());
 	IconHealthBar->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	IconHealthBar->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
